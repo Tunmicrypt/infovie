@@ -1,0 +1,24 @@
+<%- include("partials/header") -%>
+<main>
+  <div class="container col-xxl-8 px-4 py-5">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+
+      <div>
+        <h1 > <%= homeTitle %> </h1>
+        <p class="lead"> <%= homeContent%>  </p>
+        <div >
+          <form method="post">
+            <div class="mb-3">
+              <input type="text" class="form-control" name="query" id="moviesearch" aria-describedby="insert query">
+              </div>
+          <button type="Submit" class="btn btn-lg btn-secondary fw-bold border-white bg-dark">search</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+
+
+<%- include ("partials/footer") -%>

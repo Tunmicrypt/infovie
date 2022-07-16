@@ -1,15 +1,31 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const https = require("https");
+const ejs = require("ejs");
 const app = express();
 
+// let movieData = [];
+// const title;
+// const genre;
+// const overview;
+// const audienceRating;
+// const posterPath;
+// const imageURL;
+
+
+const homeTitle = "Find any Movie you want along";
+const homeContent = "It includes audience ratings and overview"
+app.set('view engine', 'ejs');
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended : true}));
 
 
 
-app.get("/", function(request, response){
-  response.sendFile(__dirname + "/index.html");
+app.get("/", function(req, res){
+    res.render("home",{
+      homeTitle: homeTitle,
+      homeContent: homeContent
+    })
 })
 
 
@@ -26,9 +42,6 @@ app.post("/", function(req, res){
 
   https.get(url, function(response){
     console.log(response.statusCode);
-    if(response.statusCode !== 200){
-      res.sendFile(__dirname + "/failure.html");
-    }
 
 
 
@@ -39,28 +52,52 @@ app.post("/", function(req, res){
     })
 
     response.on("end",function(data){
-      const movieData = JSON.parse(loadedData);
+const  movieData = JSON.parse(loadedData);
       console.log(movieData);
-      const title = movieData.results[0].title;
-      const genre = movieData.results[0].genre_ids;
-      const overview = movieData.results[0].overview;
-      const audienceRating =  movieData.results[0].vote_average;
-      const posterPath = movieData.results[0].poster_path;
-      const imageURL = "https://image.tmdb.org/t/p/" + fileSize + "/" + posterPath + "";
+      const  title = movieData.results[0].title;
+        const  genre = movieData.results[0].genre_ids;
+        const     overview = movieData.results[0].overview;
+        const audienceRating =  movieData.results[0].vote_average;
+        const   posterPath = movieData.results[0].poster_path;
+        const imageURL = "https://image.tmdb.org/t/p/" + fileSize + "/" + posterPath + "";
+
+        res.render("success",{
+          title: title,
+          overview: overview,
+          audienceRating: audienceRating,
+          imageURL: imageURL
+
+      });
+        // const  title = movieData.results.title;
+        // const  genre = movieData.results.genre_ids;
+        // const     overview = movieData.results.overview;
+        // const audienceRating =  movieData.results.vote_average;
+        // const   posterPath = movieData.results.poster_path;
+        // const imageURL = "https://image.tmdb.org/t/p/" + fileSize + "/" + posterPath + "";
+        //
+        // res.render("success",{
+        //   title: title,
+        //   overview: overview,
+        //   audienceRating: audienceRating,
+        //   imageURL: imageURL
+        // })
 
 
-      res.write("<h1> Title: " + title + "</h1>");
-        res.write("<h1>Overview: " + overview + "</h1>");
-      res.write("<h1> AudienceRating: " + audienceRating + "</h1>");
-      res.write("<img src=" + imageURL + ">");
-      res.send();
+      // res.write("<h1> Title: " + title + "</h1>");
+      //   res.write("<h1>Overview: " + overview + "</h1>");
+      // res.write("<h1> AudienceRating: " + audienceRating + "</h1>");
+      // res.write("<img src=" + imageURL + ">");
+      // res.send();
     })
 
   })
 })
 
-app.post("/failure", function(req, res){
-  res.redirect("/");
+app.get("/success", function(req, res){
+  res.render("success", {
+    title: title,
+    overview: overview
+  })
 })
 
 app.listen(process.env.PORT || 3000, function(){

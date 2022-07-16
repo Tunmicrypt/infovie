@@ -1,0 +1,17 @@
+<%- include("partials/header") -%>
+<div class="moviecard">
+  <div class="card" style="width: 18rem;">
+    <img src="<%= imageURL %>" class="card-img-top" alt="...">
+
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><h1><%= title %></h1></li>
+      <li class="list-group-item"><%= overview %></li>
+      <li class="list-group-item"><%= audienceRating %></li>
+    </ul>
+    <div class="card-body">
+      <a href="/" class="card-link">Home</a>
+    </div>
+  </div>
+</div>
+
+<%- include("partials/footer") -%>
